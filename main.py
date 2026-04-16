@@ -112,13 +112,13 @@ def run_mode_2(json_filepath="data.json"):
 
             
             result_label = normalize_label(value["expected"])
-            Coross_score = mac_operation(cross_filter, value["input"])
+            Cross_score = mac_operation(cross_filter, value["input"])
             X_score = mac_operation(x_filter, value["input"])
 
-            result = compare_scores(Coross_score, X_score)
+            result = compare_scores(Cross_score, X_score)
             if result == "a":
                 print("\n#---------------------------------------")
-                print(f"A 점수: {Coross_score}")
+                print(f"A 점수: {Cross_score}")
                 print(f"B 점수: {X_score}")
                 print(f"판정: {result}")
                 print(f"정답: {result_label}")
@@ -132,7 +132,7 @@ def run_mode_2(json_filepath="data.json"):
 
             if result == "b":
                 print("\n#---------------------------------------")
-                print(f"A 점수: {Coross_score}")
+                print(f"A 점수: {Cross_score}")
                 print(f"B 점수: {X_score}")
                 print(f"판정: {result}")
                 print(f"정답: {result_label}")
