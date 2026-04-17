@@ -30,14 +30,12 @@ def normalize_label(label):
 
 
 def get_3x3_input(prompt_message):
-    while True: # 올바른 입력을 받을 때까지 무한 반복
+    while True: 
         print(prompt_message)
         matrix = []
         
         try:
-            # 3줄을 입력받아야 하므로 3번 반복합니다.
             for i in range(3):
-            
                 while True:
                     row_str = input(f"[{i+1}/3] 행 입력 (공백 구분): ")
                     string_list = row_str.split()
@@ -49,16 +47,15 @@ def get_3x3_input(prompt_message):
                 row_numbers = [float(x) for x in string_list]
                 
                 matrix.append(row_numbers)
-                
-            # 행이 정상적으로 3개가 다 채워졌는지 마지막으로 확인
+
             if len(matrix) == 3:
                 return matrix
                 
         except ValueError:
-            print("❌ 입력 형식 오류: 숫자만 입력해주세요. 처음부터 다시 입력합니다.\n")
+            print("입력 형식 오류: 숫자만 입력해주세요. 처음부터 다시 입력합니다.\n")
             
         except Exception as e:
-            print(f"❌ 입력 형식 오류: {e} 처음부터 다시 입력합니다.\n")
+            print(f"입력 형식 오류: {e} 처음부터 다시 입력합니다.\n")
 
 
 def run_mode_1():
@@ -71,10 +68,17 @@ def run_mode_1():
     score_b = mac_operation(filter_b, pattern)
 
     result = compare_scores(score_a, score_b)
-    
+
+    start_time = time.time()
+    for _ in range(10):
+        mac_operation(filter_a, pattern)
+    end_time = time.time()
+
+    avg_time_ms = ((end_time - start_time) /10) *1000
     print("\n#---------------------------------------")
     print(f"A 점수: {score_a}")
     print(f"B 점수: {score_b}")
+    print(f"연산 시간 | 평균/10회 : {avg_time_ms:.3f}")
     print(f"판정: {result}")
     print("#---------------------------------------")
 
@@ -88,8 +92,11 @@ def run_mode_2(json_filepath="data.json"):
     try:
         with open(json_filepath, 'r') as f:
             data = json.load(f)
-        filters = data.get("filters", {})   # <--- ★ 필터들이 여기 전부 들어옵니다!
+        filters = data.get("filters", {})   
         patterns = data.get("patterns", {})
+
+        for size_key in filters.keys():
+            print(f"{size_key} 필터 로드 완료")
 
     except FileNotFoundError:
         print("파일없음")
@@ -127,7 +134,11 @@ def run_mode_2(json_filepath="data.json"):
                     print("#---------------------------------------")
                 elif result_label == "X":
                     raise ValueError(f"정답 불일치 (기대값: Cross, 실제값: X)")
+                
             elif result == "UNDECIDED":
+                print(f"Cross 점수: {Cross_score}")
+                print(f"X 점수: {X_score}")
+                print(f"판정: {result} | expected: {result_label}")
                 raise ValueError(f"점수 동률")
 
             if result == "b":
@@ -166,20 +177,15 @@ def analyze_performance():
     print("-" * 45)
 
     for n in sizes:
-        # 1. n x n 크기의 가짜 데이터 생성 (모두 1로 채운 배열 등)
         test_filter = [[1.0] * n for _ in range(n)]
         test_pattern = [[1.0] * n for _ in range(n)]
         
-        # 2. 10회 반복 측정
-        start_time = time.perf_counter() # 측정 시작
+        start_time = time.perf_counter() 
         for _ in range(10):
             mac_operation(test_filter, test_pattern)
-        end_time = time.perf_counter()   # 측정 종료
-        
-        # 3. 평균 시간 계산 (초 단위를 밀리초 ms로 변환: * 1000)
+        end_time = time.perf_counter()  
         avg_time_ms = ((end_time - start_time) / 10) * 1000
         
-        # 4. 출력
         print(f"{n}x{n:<8} | {avg_time_ms:<15.6f} | {n*n}")
 
 
