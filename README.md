@@ -21,8 +21,11 @@
 ## 3. 결과 리포트
 <img width="320" height="577" alt="모드1" src="https://github.com/user-attachments/assets/71074fe8-69a3-452b-906f-ef3ba86c5ddb" />
 
+----------------------------------------------------------------------------->>
 * **총 테스트 요약 (Total Test Summary)**
 <img width="499" height="723" alt="mode2" src="https://github.com/user-attachments/assets/958fcd07-363b-49bc-962f-f5161c24d846" />
+
+----------------------------------------------------------------------------->>
 * **성능 분석 표 (Performance Analysis Table)**
 <img width="497" height="210" alt="mode2-1" src="https://github.com/user-attachments/assets/f96cb5dc-47f4-45a1-a07f-e78d132839e9" />
 
