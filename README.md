@@ -14,9 +14,9 @@
 ### 모드 2: 대량 데이터 로드 및 검사
 * **데이터 로드:** JSON 형태의 데이터를 성공적으로 로드하고, 올바른 필터를 매칭하여 선택합니다.
 * **라벨 정규화:** `expected` 값과 `filter` 키의 형식을 통일하는 표준 라벨 정규화를 수행합니다.
-* -
+
 <img width="450" height="309" alt="숫자가 아닌값" src="https://github.com/user-attachments/assets/8faa32b5-77be-40d5-a943-aa3fcb74e0c3" />
-* **동점 처리:** 모드 2에서 동점이 발생할 경우 "UNDECIDED"를 출력하고, 전체 결과 집계에서 FAIL로 정상 처리합니다.
+-- 동점 처리: 모드 2에서 동점이 발생할 경우 "UNDECIDED"를 출력하고, 전체 결과 집계에서 FAIL로 정상 처리합니다.
 
 ## 3. 결과 리포트
 <img width="320" height="577" alt="모드1" src="https://github.com/user-attachments/assets/71074fe8-69a3-452b-906f-ef3ba86c5ddb" />
