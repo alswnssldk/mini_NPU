@@ -82,10 +82,6 @@ def run_mode_1():
     print(f"판정: {result}")
     print("#---------------------------------------")
 
-
-
-
-
 def run_mode_2(json_filepath="data.json"):
     print("Mini NPU simulator (json모드)")
 
