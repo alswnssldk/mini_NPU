@@ -10,13 +10,18 @@ def mac_operation(filter_arr, pattern_arr):
             total_score += filter_arr[A][B]*pattern_arr[A][B]
     return total_score
 
-def compare_scores(score_a, score_b):
-    if abs(score_a - score_b) < 1e-9:
+def compare_scores(scores_dict):
+    max_score = max(scores_dict.values())
+
+    top_filters = []
+
+    for name, score in scores_dict.items():
+        if abs(max_score - score) < 1e-9:
+            top_filters.append(name)
+    if len(top_filters) == 1:
+        return top_filters[0]
+    else:
         return "UNDECIDED"
-    elif score_a > score_b:
-        return "a"
-    elif score_a < score_b:
-        return "b"
     
 def normalize_label(label):
     Cross = ["+", "cross", "Cross"]
@@ -67,18 +72,18 @@ def run_mode_1():
     score_a = mac_operation(filter_a, pattern)
     score_b = mac_operation(filter_b, pattern)
 
-    result = compare_scores(score_a, score_b)
+    result = compare_scores({"A": score_a, "B": score_b})
 
     start_time = time.time()
-    for _ in range(10):
+    for _ in range(1000):
         mac_operation(filter_a, pattern)
     end_time = time.time()
 
-    avg_time_ms = ((end_time - start_time) /10) *1000
+    avg_time_ms = ((end_time - start_time) /1000) *1000
     print("\n#---------------------------------------")
     print(f"A 점수: {score_a}")
     print(f"B 점수: {score_b}")
-    print(f"연산 시간 | 평균/10회 : {avg_time_ms:.3f}")
+    print(f"연산 시간 | 평균/1000회 : {avg_time_ms:.3f}")
     print(f"판정: {result}")
     print("#---------------------------------------")
 
@@ -108,46 +113,35 @@ def run_mode_2(json_filepath="data.json"):
             N = int(part_list[1])
 
             filter_len_name = f"size_{N}"
-            cross_filter = filters[filter_len_name]["Cross"]
-            x_filter = filters[filter_len_name]["X"]
+
+            target_filters = filters[filter_len_name]
+
             if len(value["input"]) != N:    
                 raise ValueError("길이 안맞음")
 
-            
             result_label = normalize_label(value["expected"])
-            Cross_score = mac_operation(cross_filter, value["input"])
-            X_score = mac_operation(x_filter, value["input"])
 
-            result = compare_scores(Cross_score, X_score)
-            if result == "a":
-                print("\n#---------------------------------------")
-                print(f"A 점수: {Cross_score}")
-                print(f"B 점수: {X_score}")
-                print(f"판정: {result}")
-                print(f"정답: {result_label}")
-                if result_label == "Cross":
-                    Pass += 1
-                    print("#---------------------------------------")
-                elif result_label == "X":
-                    raise ValueError(f"정답 불일치 (기대값: Cross, 실제값: X)")
+            scores_dict = {}
+            for filter_name, filter_matrix in target_filters.items():
+                scores_dict[filter_name] = mac_operation(filter_matrix, value['input'])
+
+            result = compare_scores(scores_dict)
+
+            #========================================================================================>>>
+            #========================================================================================>>>
+            print("\n#---------------------------------------")
+            for f_name, score in scores_dict.items():
+                print(f"{f_name} 점수: {score}")
                 
-            elif result == "UNDECIDED":
-                print(f"Cross 점수: {Cross_score}")
-                print(f"X 점수: {X_score}")
-                print(f"판정: {result} | expected: {result_label}")
-                raise ValueError(f"점수 동률")
-
-            if result == "b":
-                print("\n#---------------------------------------")
-                print(f"A 점수: {Cross_score}")
-                print(f"B 점수: {X_score}")
-                print(f"판정: {result}")
-                print(f"정답: {result_label}")
-                if result_label == "X":
-                    Pass += 1
-                    print("#---------------------------------------")
-                elif result_label == "Cross":
-                    raise ValueError(f"정답 불일치 (기대값: X, 실제값: Cross)")
+            print(f"판정: {result}")
+            print(f"정답: {result_label}")
+            if result == "UNDECIDED":
+                raise ValueError("점수 동률")
+            elif result.lower() == result_label.lower():
+                Pass += 1
+                print("#---------------------------------------")
+            else:
+                raise ValueError(f"정답 불일치 (기대값: {result_label}, 실제값: {result})")
             
         except Exception as e:
             Fail += 1
@@ -187,21 +181,23 @@ def analyze_performance():
 
 
 if __name__ == "__main__":
-    while True:
-        print("\n=== Mini NPU Simulator ===")
-        print("1. 사용자 입력 (3x3)")
-        print("2. data.json 분석 및 전체 성능 측정")
-        print("0. 종료")
+    try:
+        while True:
+            print("\n=== Mini NPU Simulator ===")
+            print("1. 사용자 입력 (3x3)")
+            print("2. data.json 분석 및 전체 성능 측정")
+            print("0. 종료")
 
-        choice = input("모드를 선택하세요: ")
-
-        if choice == '1':
-            run_mode_1()
-        elif choice == '2':
-            run_mode_2()
-            analyze_performance()
-        elif choice == '0':
-            print("프로그램을 종료합니다.")
-            break
-        else:
-            print("잘못된 입력입니다. 다시 선택해주세요.")
+            choice = input("모드를 선택하세요: ")
+            if choice == '1':
+                run_mode_1()
+            elif choice == '2':
+                run_mode_2()
+                analyze_performance()
+            elif choice == '0':
+                print("프로그램을 종료합니다.")
+                break
+            else:
+                print("잘못된 입력입니다. 다시 선택해주세요.")
+    except KeyboardInterrupt:
+        print("프로그램을 종료합니다")
