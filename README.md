@@ -20,6 +20,7 @@
 
 ## 3. 결과 리포트 / 모드 1
 <img width="320" height="577" alt="모드1" src="https://github.com/user-attachments/assets/71074fe8-69a3-452b-906f-ef3ba86c5ddb" />
+-----------------------------------
 <img width="325" height="396" alt="Screenshot 2026-04-21 at 5 39 40 PM" src="https://github.com/user-attachments/assets/36e8965f-cea7-40be-b60a-9ae89e0feaef" />
 
 ----------------------------------------------------------------------------->>
