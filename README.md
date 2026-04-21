@@ -18,15 +18,16 @@
 * **라벨 정규화:** `expected` 값과 `filter` 키의 형식을 통일하는 표준 라벨 정규화를 수행합니다.
 * **동점 처리:** 모드 2에서 동점이 발생할 경우 "UNDECIDED"를 출력하고, 전체 결과 집계에서 FAIL로 정상 처리합니다.
 
-## 3. 결과 리포트
+## 3. 결과 리포트 / 모드 1
 <img width="320" height="577" alt="모드1" src="https://github.com/user-attachments/assets/71074fe8-69a3-452b-906f-ef3ba86c5ddb" />
+<img width="325" height="396" alt="Screenshot 2026-04-21 at 5 39 40 PM" src="https://github.com/user-attachments/assets/36e8965f-cea7-40be-b60a-9ae89e0feaef" />
 
 ----------------------------------------------------------------------------->>
-* **총 테스트 요약 (Total Test Summary)**
+* **총 테스트 요약 (Total Test Summary)** / 모드 2
 <img width="499" height="723" alt="mode2" src="https://github.com/user-attachments/assets/958fcd07-363b-49bc-962f-f5161c24d846" />
 
 ----------------------------------------------------------------------------->>
-* **성능 분석 표 (Performance Analysis Table)**
+* **성능 분석 표 (Performance Analysis Table)** / 모드 2
 <img width="497" height="210" alt="mode2-1" src="https://github.com/user-attachments/assets/f96cb5dc-47f4-45a1-a07f-e78d132839e9" />
 
 ## 4. 코드 구조 및 설계
