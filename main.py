@@ -58,9 +58,6 @@ def get_3x3_input(prompt_message):
                 
         except ValueError:
             print("입력 형식 오류: 숫자만 입력해주세요. 처음부터 다시 입력합니다.\n")
-            
-        except Exception as e:
-            print(f"입력 형식 오류: {e} 처음부터 다시 입력합니다.\n")
 
 
 def run_mode_1():
@@ -83,7 +80,7 @@ def run_mode_1():
     print("\n#---------------------------------------")
     print(f"A 점수: {score_a}")
     print(f"B 점수: {score_b}")
-    print(f"연산 시간 | 평균/1000회 : {avg_time_ms:.3f}")
+    print(f"연산 시간 | 평균/1000회 : {avg_time_ms:.10f}")
     print(f"판정: {result}")
     print("#---------------------------------------")
 
