@@ -1,5 +1,5 @@
 import json
-import time
+import timeit
 
 def mac_operation(filter_arr, pattern_arr):
     total_score = 0
@@ -71,12 +71,14 @@ def run_mode_1():
 
     result = compare_scores({"A": score_a, "B": score_b})
 
-    start_time = time.time()
-    for _ in range(1000):
-        mac_operation(filter_a, pattern)
-    end_time = time.time()
+    #start_time = time.time()
+    #for _ in range(1000):
+        #mac_operation(filter_a, pattern)
+    #end_time = time.time()
 
-    avg_time_ms = ((end_time - start_time) /1000) *1000
+    totaltime = timeit.timeit(lambda:mac_operation(filter_a, pattern), number=1000)
+
+    avg_time_ms = (totaltime /1000) *1000
     print("\n#---------------------------------------")
     print(f"A 점수: {score_a}")
     print(f"B 점수: {score_b}")
@@ -127,6 +129,7 @@ def run_mode_2(json_filepath="data.json"):
             #========================================================================================>>>
             #========================================================================================>>>
             print("\n#---------------------------------------")
+            print(f"패턴 : {key}")
             for f_name, score in scores_dict.items():
                 print(f"{f_name} 점수: {score}")
                 
@@ -167,11 +170,14 @@ def analyze_performance():
         test_filter = [[1.0] * n for _ in range(n)]
         test_pattern = [[1.0] * n for _ in range(n)]
         
-        start_time = time.perf_counter() 
-        for _ in range(10):
-            mac_operation(test_filter, test_pattern)
-        end_time = time.perf_counter()  
-        avg_time_ms = ((end_time - start_time) / 10) * 1000
+        #start_time = time.perf_counter() 
+        #for _ in range(10):
+            #mac_operation(test_filter, test_pattern)
+        #end_time = time.perf_counter()  
+
+        total_time = timeit.timeit(lambda: mac_operation(test_filter, test_pattern), number=10)
+
+        avg_time_ms = (total_time / 10) * 1000
         
         print(f"{n}x{n:<8} | {avg_time_ms:<15.6f} | {n*n}")
 
